@@ -18,10 +18,9 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 10px;
+  padding: 20px;
 }
 
-/* 🔥 الكرت */
 .container {
   background: #1e293b;
   padding: 20px;
@@ -36,7 +35,7 @@ h2 {
   margin-bottom: 10px;
 }
 
-/* النص التعريفي */
+/* 🔐 الوصف */
 .info {
   font-size: 12px;
   color: #cbd5e1;
@@ -49,7 +48,19 @@ h2 {
   padding-right: 15px;
 }
 
-/* 🔥 إصلاح مشكلة input */
+/* 💡 النصائح */
+.tips {
+  font-size: 12px;
+  color: #a5f3fc;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: right;
+  line-height: 1.6;
+  background: rgba(56, 189, 248, 0.08);
+  padding: 10px;
+  border-radius: 10px;
+}
+
 input {
   width: 100%;
   padding: 12px;
@@ -61,7 +72,6 @@ input {
   outline: none;
 }
 
-/* الأزرار */
 button {
   width: 100%;
   padding: 12px;
@@ -81,7 +91,6 @@ button {
   color: white;
 }
 
-/* النتيجة */
 .result {
   margin-top: 15px;
   font-size: 18px;
@@ -90,18 +99,15 @@ button {
   transition: 0.5s;
 }
 
-/* التحميل */
 .loading {
   margin-top: 10px;
   display: none;
 }
 
-/* ألوان النتيجة */
 .safe { color: #22c55e; }
 .warn { color: #facc15; }
 .danger { color: #ef4444; }
 
-/* الحقوق */
 .footer {
   margin-top: 15px;
   font-size: 12px;
@@ -116,16 +122,32 @@ button {
 
 <h2>🔐 Cyber Guard</h2>
 
+<!-- 🔐 الوصف -->
 <div class="info">
-  أداة لفحص الروابط بشكل مبسط لاكتشاف المؤشرات المشبوهة.<br><br>
-  ⚠️ تنبيه: الأداة تعليمية وليست نظام حماية احترافي.<br><br>
+  🔐 <b>Cyber Guard - URL Risk Analyzer</b><br><br>
 
-  💡 نصائح:
+  أداة تعليمية لتحليل الروابط واكتشاف مؤشرات الاحتيال والتصيّد (Phishing).<br>
+  تعتمد على قواعد تحليل ذكية لتقييم خطورة الرابط وإعطاء درجة أمان.<br><br>
+
+  ⚠️ تنبيه مهم:<br>
+  هذه الأداة للتوعية فقط وليست نظام حماية حقيقي.<br><br>
+
+  💡 كيف تعمل:
   <ul>
-    <li>لا تفتح روابط مجهولة</li>
-    <li>تأكد من وجود https</li>
-    <li>انتبه لروابط تسجيل الدخول المزيفة</li>
+    <li>تحليل شكل الرابط ومكوناته</li>
+    <li>كشف الروابط المختصرة والمشبوهة</li>
+    <li>تحديد كلمات التصيّد</li>
+    <li>إعطاء تقييم خطورة من 0 إلى 100</li>
   </ul>
+</div>
+
+<!-- 💡 النصائح الجديدة -->
+<div class="tips">
+  💡 <b>نصائح أمنية:</b><br>
+  • لا تفتح روابط مجهولة المصدر<br>
+  • تأكد من وجود https قبل أي تسجيل دخول<br>
+  • انتبه من الروابط المختصرة<br>
+  • لا تدخل بياناتك في مواقع مشبوهة<br>
 </div>
 
 <input type="text" id="link" placeholder="الصق الرابط هنا">
