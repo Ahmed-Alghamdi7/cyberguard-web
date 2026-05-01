@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cyber Guard</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #1e293b;
+      padding: 25px;
+      border-radius: 15px;
+      width: 340px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+      background: #38bdf8;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0ea5e9;
+    }
+
+    .result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .info {
+      font-size: 12px;
+      color: #cbd5e1;
+      margin-bottom: 10px;
+      line-height: 1.8;
+      text-align: right;
+    }
+
+    .info ul {
+      padding-right: 15px;
+      margin: 5px 0;
+    }
+
+    .footer {
+      margin-top: 15px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h2>🔐 Cyber Guard</h2>
+
+    <!-- تعريف البرنامج -->
+    <div class="info">
+      أداة بسيطة لفحص الروابط والتأكد من سلامتها من خلال تحليل مؤشرات مشبوهة مثل الكلمات الغريبة أو الروابط غير الطبيعية.<br><br>
+
+      ⚠️ تنبيه: هذه الأداة تعليمية فقط وتساعد في التوعية بالأمن السيبراني ولا تعتبر حماية احترافية.<br><br>
+
+      💡 نصائح:
+      <ul>
+        <li>لا تفتح روابط مجهولة</li>
+        <li>تأكد من وجود https</li>
+        <li>انتبه من روابط تسجيل الدخول المزيفة</li>
+      </ul>
+    </div>
+
+    <!-- الإدخال -->
+    <input type="text" id="link" placeholder="Paste link here">
+
+    <button onclick="analyze()">Analyze</button>
+
+    <div class="result" id="result"></div>
+    <div id="explanation"></div>
+
+    <!-- الحقوق داخل نفس المربع -->
+    <div class="footer">
+      Developed by: Ahmed Alghamdi | أحمد الغامدي
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
