@@ -1,5 +1,5 @@
 function analyze() {
-  let link = document.getElementById("link").value;
+  let link = document.getElementById("link").value.trim();
   let resultBox = document.getElementById("result");
   let explanationBox = document.getElementById("explanation");
   let loading = document.getElementById("loading");
@@ -11,9 +11,15 @@ function analyze() {
 
     loading.style.display = "none";
 
-    if (!link) {
-      resultBox.innerText = "⚠️ اكتب رابط أول";
-      explanationBox.innerText = "";
+    // 🔥 التحقق: هل هو رابط أصلاً؟
+    let isUrl = link.startsWith("http://") ||
+                link.startsWith("https://") ||
+                link.includes(".");
+
+    if (!link || !isUrl) {
+      resultBox.className = "result danger";
+      resultBox.innerText = "❌ الرجاء إدخال رابط صحيح";
+      explanationBox.innerText = "المدخل ليس رابط (يجب أن يبدأ بـ https أو يحتوي على نطاق)";
       resultBox.style.opacity = 1;
       return;
     }
@@ -21,26 +27,26 @@ function analyze() {
     let score = 100;
     let reasons = [];
 
-    // 🔴 كلمات خطيرة
+    // 🔴 كلمات مشبوهة
     if (link.includes("login") || link.includes("verify")) {
       score -= 25;
-      reasons.push("كلمات تصيّد (Phishing)");
+      reasons.push("كلمات تصيّد");
     }
 
-    // 🔴 رموز أو بريد مشبوه
+    // 🔴 @
     if (link.includes("@")) {
       score -= 20;
-      reasons.push("وجود @ داخل الرابط");
+      reasons.push("وجود @");
     }
 
     // 🔴 أرقام كثيرة
     let numbers = (link.match(/[0-9]/g) || []).length;
     if (numbers > 6) {
       score -= 15;
-      reasons.push("أرقام كثيرة في الرابط");
+      reasons.push("أرقام كثيرة");
     }
 
-    // 🔴 شرطات كثيرة
+    // 🔴 شرطات
     let dashes = (link.match(/-/g) || []).length;
     if (dashes > 3) {
       score -= 10;
@@ -53,16 +59,15 @@ function analyze() {
       reasons.push("دومين غير موثوق");
     }
 
-    // 🟢 HTTPS أمان بسيط
+    // 🟢 https
     if (link.startsWith("https")) {
       score += 5;
     }
 
-    // 🧠 مهم جدًا: ضبط الحدود
+    // ضبط الحدود
     if (score > 100) score = 100;
     if (score < 0) score = 0;
 
-    // 🎯 تحديد النتيجة
     let status = "";
     let className = "";
 
