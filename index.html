@@ -1,184 +1,163 @@
-<!DOCTYPE html>
-<html lang="ar">
 <head>
 <meta charset="UTF-8">
+
+<!-- 🔥 مهم للجوال -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Cyber Guard</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: #0f172a;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* 🧱 Sections */
-.section {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 10px 0;
-}
-
-/* 📦 Card */
-.card {
-  background: #1e293b;
+@@ -26,7 +25,7 @@
+  padding: 20px;
   border-radius: 15px;
-  padding: 18px;
   width: 90%;
-  max-width: 420px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  max-width: 350px;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+@@ -35,27 +34,15 @@
+  margin-bottom: 10px;
 }
 
-/* 🎯 Analyze highlight */
-#analyzeSection .card {
-  border: 1px solid #38bdf8;
-  box-shadow: 0 0 25px rgba(56,189,248,0.2);
-}
-
-/* 💡 text */
-p {
-  font-size: 13px;
-  line-height: 1.6;
+/* 🔐 الوصف */
+.info {
+.info, .tips {
+  font-size: 12px;
   color: #cbd5e1;
+  margin-bottom: 10px;
+  line-height: 1.6;
+  text-align: right;
+  line-height: 1.6;
+  margin-bottom: 10px;
 }
 
-ul {
+.info ul {
   padding-right: 15px;
-  font-size: 13px;
-  line-height: 1.7;
 }
 
-/* 🎯 Input */
-input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
+/* 💡 النصائح */
+.tips {
+  font-size: 12px;
+  color: #a5f3fc;
   margin-top: 10px;
-  box-sizing: border-box;
+  margin-bottom: 10px;
+  text-align: right;
+  line-height: 1.6;
+  background: rgba(56, 189, 248, 0.08);
+  padding: 10px;
+  border-radius: 10px;
+@@ -91,6 +78,7 @@
+  color: white;
 }
 
-/* 🔘 Buttons */
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  position: relative;
-  z-index: 10; /* 🔥 يمنع تغطية الزر */
-}
-
-.analyze-btn { background: #38bdf8; }
-.clear-btn { background: #ef4444; color: white; }
-.copy-btn { background: #22c55e; color: black; }
-
-/* 📊 Result */
+/* ================= RESULT ================= */
 .result {
-  margin-top: 10px;
-  font-weight: bold;
-  opacity: 0;
+  margin-top: 15px;
+  font-size: 18px;
+@@ -99,14 +87,53 @@
   transition: 0.5s;
-  white-space: pre-line;
 }
 
 .safe { color: #22c55e; }
 .warn { color: #facc15; }
 .danger { color: #ef4444; }
 
-/* 🕓 History */
+/* ================= EXTRA UI ================= */
+
+.loading {
+  margin-top: 10px;
+  display: none;
+}
+
+.safe { color: #22c55e; }
+.warn { color: #facc15; }
+.danger { color: #ef4444; }
+#explanation {
+  font-size: 12px;
+  margin-top: 8px;
+  color: #cbd5e1;
+}
+
+/* 📋 COPY BUTTON */
+.copy-btn {
+  background: #22c55e;
+  color: black;
+  margin-top: 10px;
+}
+
+/* 🕓 HISTORY */
 .history {
-  font-size: 12px;
+  margin-top: 15px;
+  font-size: 11px;
+  text-align: right;
   color: #94a3b8;
+  max-height: 120px;
+  overflow-y: auto;
+  padding: 5px;
+  border-top: 1px solid #334155;
 }
 
-/* 🔚 Footer */
+/* ⚠️ ALERT EFFECT */
+.alert {
+  animation: shake 0.4s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
 .footer {
-  text-align: center;
-  font-size: 12px;
-  color: #94a3b8;
-  padding: 20px;
-}
+  margin-top: 15px;
+@@ -124,30 +151,16 @@ <h2>🔐 Cyber Guard</h2>
 
-h1, h3 {
-  margin: 0 0 10px 0;
-}
-</style>
-</head>
+<!-- 🔐 الوصف -->
+<div class="info">
+  🔐 <b>Cyber Guard - URL Risk Analyzer</b><br><br>
 
-<body>
+  أداة تعليمية لتحليل الروابط واكتشاف مؤشرات الاحتيال والتصيّد (Phishing).<br>
+  تعتمد على قواعد تحليل ذكية لتقييم خطورة الرابط وإعطاء درجة أمان.<br><br>
 
-<!-- 🔝 HERO -->
-<div class="section">
-  <div class="card">
+  ⚠️ تنبيه مهم:<br>
+  هذه الأداة للتوعية فقط وليست نظام حماية حقيقي.<br><br>
 
-    <h1>🔐 Cyber Guard</h1>
-
-    <p>
-      أداة تحليل روابط ذكية لكشف الروابط الاحتيالية والتصيّد خلال ثواني.
-    </p>
-
-    <p>
-      👨‍💻 <b>المطور:</b> Ahmed Alghamdi | أحمد الغامدي
-    </p>
-
-  </div>
+  💡 كيف تعمل:
+  <ul>
+    <li>تحليل شكل الرابط ومكوناته</li>
+    <li>كشف الروابط المختصرة والمشبوهة</li>
+    <li>تحديد كلمات التصيّد</li>
+    <li>إعطاء تقييم خطورة من 0 إلى 100</li>
+  </ul>
+  🔐 <b>URL Risk Analyzer</b><br><br>
+  أداة تحليل روابط للتوعية الأمنية وكشف التصيّد.
 </div>
 
-<!-- 📊 FEATURES -->
-<div class="section">
-  <div class="card">
-    <h3>📊 ماذا يفعل البرنامج؟</h3>
-    <ul>
-      <li>🔍 تحليل الرابط</li>
-      <li>⚠️ كشف التصيّد</li>
-      <li>📊 تقييم الأمان</li>
-    </ul>
-  </div>
+<!-- 💡 النصائح الجديدة -->
+<!-- 💡 النصائح -->
+<div class="tips">
+  💡 <b>نصائح أمنية:</b><br>
+  • لا تفتح روابط مجهولة المصدر<br>
+  • قبل أي تسجيل دخول تأكد من وجود https <br>
+  • انتبه من الروابط المختصرة<br>
+  • لا تدخل بياناتك في مواقع مشبوهة<br>
+  💡 نصائح أمنية:<br>
+  • لا تفتح روابط مجهولة<br>
+  • تأكد من HTTPS<br>
+  • انتبه للروابط المختصرة<br>
 </div>
 
-<!-- 🎯 ANALYZE -->
-<div class="section" id="analyzeSection">
-  <div class="card">
+<input type="text" id="link" placeholder="الصق الرابط هنا">
+@@ -160,6 +173,12 @@ <h2>🔐 Cyber Guard</h2>
+<div class="result" id="result"></div>
+<div id="explanation"></div>
 
-    <h3>🔍 تحليل الرابط</h3>
-
-    <input type="text" id="link" placeholder="الصق الرابط هنا">
-
-    <button class="analyze-btn" onclick="analyze()">تحليل</button>
-    <button class="clear-btn" onclick="clearInput()">مسح</button>
-
-    <div class="result" id="result"></div>
-    <div id="explanation" style="white-space: pre-line;"></div>
-
-    <button class="copy-btn" onclick="copyReport()">📋 Copy Report</button>
-
-  </div>
-</div>
+<!-- 📋 COPY REPORT -->
+<button class="copy-btn" onclick="copyReport()">📋 Copy Report</button>
 
 <!-- 🕓 HISTORY -->
-<div class="section">
-  <div class="card">
-    <h3>🕓 آخر العمليات</h3>
-    <div id="historyBox">لا يوجد عمليات حتى الآن</div>
-  </div>
-</div>
+<div class="history" id="historyBox"></div>
 
-<!-- 🔚 FOOTER -->
 <div class="footer">
-  Developed by: Ahmed Alghamdi | أحمد الغامدي
+Developed by: Ahmed Alghamdi | أحمد الغامدي
 </div>
-
-<!-- ✅ JS -->
-<script src="script.js"></script>
-
-</body>
-</html>
