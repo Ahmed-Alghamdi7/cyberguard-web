@@ -1,115 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>Cyber Guard</title>
+<meta charset="UTF-8">
+<title>Cyber Guard</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0f172a;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-    .container {
-      background: #1e293b;
-      padding: 25px;
-      border-radius: 15px;
-      width: 340px;
-      text-align: center;
-      box-shadow: 0 0 15px rgba(0,0,0,0.4);
-    }
+.container {
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 15px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: none;
-    }
+h2 {
+  margin-bottom: 10px;
+}
 
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: none;
-      background: #38bdf8;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.info {
+  font-size: 12px;
+  color: #cbd5e1;
+  margin-bottom: 10px;
+  line-height: 1.6;
+  text-align: right;
+}
 
-    button:hover {
-      background: #0ea5e9;
-    }
+.info ul {
+  padding-right: 15px;
+}
 
-    .result {
-      margin-top: 15px;
-      font-weight: bold;
-    }
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  margin-top: 10px;
+  font-size: 14px;
+}
 
-    .info {
-      font-size: 12px;
-      color: #cbd5e1;
-      margin-bottom: 10px;
-      line-height: 1.8;
-      text-align: right;
-    }
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .info ul {
-      padding-right: 15px;
-      margin: 5px 0;
-    }
+.analyze-btn {
+  background: #38bdf8;
+}
 
-    .footer {
-      margin-top: 15px;
-      font-size: 12px;
-      color: #94a3b8;
-    }
-  </style>
+.clear-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.result {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.loading {
+  margin-top: 10px;
+  display: none;
+}
+
+.safe { color: #22c55e; }
+.warn { color: #facc15; }
+.danger { color: #ef4444; }
+
+.footer {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <h2>🔐 Cyber Guard</h2>
+<h2>🔐 Cyber Guard</h2>
 
-    <!-- تعريف البرنامج -->
-    <div class="info">
-      أداة بسيطة لفحص الروابط والتأكد من سلامتها من خلال تحليل مؤشرات مشبوهة مثل الكلمات الغريبة أو الروابط غير الطبيعية.<br><br>
+<div class="info">
+  أداة لفحص الروابط بشكل مبسط لاكتشاف المؤشرات المشبوهة.<br><br>
+  ⚠️ تنبيه: الأداة تعليمية وليست نظام حماية احترافي.<br><br>
 
-      ⚠️ تنبيه: هذه الأداة تعليمية فقط وتساعد في التوعية بالأمن السيبراني ولا تعتبر حماية احترافية.<br><br>
+  💡 نصائح:
+  <ul>
+    <li>لا تفتح روابط مجهولة</li>
+    <li>تأكد من وجود https</li>
+    <li>انتبه لروابط تسجيل الدخول المزيفة</li>
+  </ul>
+</div>
 
-      💡 نصائح:
-      <ul>
-        <li>لا تفتح روابط مجهولة</li>
-        <li>تأكد من وجود https</li>
-        <li>انتبه من روابط تسجيل الدخول المزيفة</li>
-      </ul>
-    </div>
+<input type="text" id="link" placeholder="الصق الرابط هنا">
 
-    <!-- الإدخال -->
-    <input type="text" id="link" placeholder="Paste link here">
+<button class="analyze-btn" onclick="analyze()">Analyze</button>
+<button class="clear-btn" onclick="clearInput()">Clear</button>
 
-    <button onclick="analyze()">Analyze</button>
+<div class="loading" id="loading">⏳ جاري التحليل...</div>
 
-    <div class="result" id="result"></div>
-    <div id="explanation"></div>
+<div class="result" id="result"></div>
+<div id="explanation"></div>
 
-    <!-- الحقوق داخل نفس المربع -->
-    <div class="footer">
-      Developed by: Ahmed Alghamdi | أحمد الغامدي
-    </div>
+<div class="footer">
+Developed by: Ahmed Alghamdi | أحمد الغامدي
+</div>
 
-  </div>
+</div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
