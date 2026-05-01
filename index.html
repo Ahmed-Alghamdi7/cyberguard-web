@@ -73,6 +73,8 @@ button {
   border: none;
   font-weight: bold;
   cursor: pointer;
+  position: relative;
+  z-index: 10; /* 🔥 يمنع تغطية الزر */
 }
 
 .analyze-btn { background: #38bdf8; }
@@ -85,7 +87,7 @@ button {
   font-weight: bold;
   opacity: 0;
   transition: 0.5s;
-  white-space: pre-line; /* 🔥 عشان يظهر الشرح بأسطر */
+  white-space: pre-line;
 }
 
 .safe { color: #22c55e; }
@@ -175,8 +177,8 @@ h1, h3 {
   Developed by: Ahmed Alghamdi | أحمد الغامدي
 </div>
 
-<!-- ✅ ربط الجافاسكربت الصحيح -->
+<!-- ✅ JS -->
 <script src="script.js"></script>
 
 </body>
-</html>>
+</html>
