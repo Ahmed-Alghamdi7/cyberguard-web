@@ -85,6 +85,7 @@ button {
   font-weight: bold;
   opacity: 0;
   transition: 0.5s;
+  white-space: pre-line; /* 🔥 عشان يظهر الشرح بأسطر */
 }
 
 .safe { color: #22c55e; }
@@ -154,7 +155,7 @@ h1, h3 {
     <button class="clear-btn" onclick="clearInput()">مسح</button>
 
     <div class="result" id="result"></div>
-    <div id="explanation"></div>
+    <div id="explanation" style="white-space: pre-line;"></div>
 
     <button class="copy-btn" onclick="copyReport()">📋 Copy Report</button>
 
@@ -174,110 +175,8 @@ h1, h3 {
   Developed by: Ahmed Alghamdi | أحمد الغامدي
 </div>
 
-<!-- 🚀 JAVASCRIPT (FIXED + WORKING) -->
-<script>
-let lastReport = "";
-
-function analyze() {
-  let link = document.getElementById("link").value.trim();
-  let resultBox = document.getElementById("result");
-  let explanationBox = document.getElementById("explanation");
-
-  if (!link) {
-    showResult("❌ الرجاء إدخال رابط", "", "danger");
-    return;
-  }
-
-  let url;
-  try {
-    url = new URL(link.startsWith("http") ? link : "http://" + link);
-  } catch {
-    showResult("❌ رابط غير صالح", "", "danger");
-    return;
-  }
-
-  let domain = url.hostname;
-  let score = 100;
-  let reasons = [];
-
-  if (!link.startsWith("https")) {
-    score -= 10;
-    reasons.push("لا يستخدم HTTPS");
-  }
-
-  if (domain.includes("bit.ly") || domain.includes("tinyurl") || domain.includes("t.co")) {
-    score -= 30;
-    reasons.push("رابط مختصر");
-  }
-
-  let fakeWords = ["g00gle", "faceb00k", "paypa1"];
-  fakeWords.forEach(w => {
-    if (link.toLowerCase().includes(w)) {
-      score -= 40;
-      reasons.push("دومين مزيف");
-    }
-  });
-
-  if (link.includes("@")) {
-    score -= 25;
-    reasons.push("إخفاء الوجهة");
-  }
-
-  score = Math.max(0, Math.min(100, score));
-
-  let status = "";
-  let className = "";
-
-  if (score >= 80) {
-    status = "✅ آمن";
-    className = "safe";
-  } else if (score >= 50) {
-    status = "⚠️ مشبوه";
-    className = "warn";
-  } else {
-    status = "❌ خطير";
-    className = "danger";
-  }
-
-  lastReport = `URL: ${link}
-Score: ${score}
-Status: ${status}
-Reasons: ${reasons.join(", ") || "None"}`;
-
-  showResult(`${status} (${score}/100)`, reasons.join(" - "), className);
-
-  saveHistory(link, score, status);
-}
-
-function showResult(text, explanation, className) {
-  let resultBox = document.getElementById("result");
-  let explanationBox = document.getElementById("explanation");
-
-  resultBox.className = "result " + className;
-  resultBox.innerText = text;
-  explanationBox.innerText = explanation;
-  resultBox.style.opacity = 1;
-}
-
-function clearInput() {
-  document.getElementById("link").value = "";
-  document.getElementById("result").innerText = "";
-  document.getElementById("explanation").innerText = "";
-}
-
-function copyReport() {
-  if (!lastReport) return;
-  navigator.clipboard.writeText(lastReport);
-  alert("📋 تم نسخ التقرير");
-}
-
-function saveHistory(link, score, status) {
-  let box = document.getElementById("historyBox");
-  let item = document.createElement("div");
-  item.innerHTML = `🔗 ${link} | ${score}/100 | ${status}`;
-  box.prepend(item);
-}
-</script>
+<!-- ✅ ربط الجافاسكربت الصحيح -->
+<script src="script.js"></script>
 
 </body>
-</html>
+</html>>
