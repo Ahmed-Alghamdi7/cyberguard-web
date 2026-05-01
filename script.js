@@ -4,7 +4,6 @@ function analyze() {
   let explanationBox = document.getElementById("explanation");
   let loading = document.getElementById("loading");
 
-  // 🔥 تأكد كل شيء يرجع طبيعي قبل البدء
   loading.style.display = "none";
   resultBox.style.opacity = 0;
 
@@ -16,68 +15,96 @@ function analyze() {
 
       loading.style.display = "none";
 
-      // 🔥 تحقق أساسي
+      // ❌ فارغ
       if (!link) {
         showResult("❌ الرجاء إدخال رابط", "الحقل فارغ", "danger");
         return;
       }
 
-      if (!link.startsWith("http")) {
-        showResult("❌ الرابط غير صالح", "لا يبدأ بـ http/https", "danger");
+      // ❌ رابط ناقص أو غير منطقي
+      if (!link.includes(".")) {
+        showResult("❌ هذا ليس رابطًا صحيحًا", "لا يحتوي على نطاق (domain)", "danger");
         return;
       }
 
-      // 🌐 استخراج الدومين
-      let domain = "";
+      // 🌐 تحويل الرابط الحقيقي
+      let url;
       try {
-        domain = new URL(link).hostname;
+        url = new URL(link.startsWith("http") ? link : "http://" + link);
       } catch {
-        domain = link;
+        showResult("❌ رابط غير صالح", "لا يمكن قراءته كرابط حقيقي", "danger");
+        return;
       }
+
+      let domain = url.hostname;
 
       let score = 100;
       let reasons = [];
 
-      // 🔴 روابط مختصرة
-      if (domain.includes("bit.ly") || domain.includes("tinyurl")) {
-        score -= 25;
-        reasons.push("رابط مختصر");
+      // 🔴 1) HTTP بدون أمان
+      if (!link.startsWith("https")) {
+        score -= 10;
+        reasons.push("لا يستخدم HTTPS");
       }
 
-      // 🔴 Typosquatting
+      // 🔴 2) روابط مختصرة
+      if (
+        domain.includes("bit.ly") ||
+        domain.includes("tinyurl") ||
+        domain.includes("t.co")
+      ) {
+        score -= 30;
+        reasons.push("رابط مختصر يخفي الوجهة");
+      }
+
+      // 🔴 3) Typosquatting
       let fakeWords = ["g00gle", "faceb00k", "paypa1", "micros0ft"];
       fakeWords.forEach(word => {
         if (link.includes(word)) {
-          score -= 35;
+          score -= 40;
           reasons.push("دومين مزيف (Typosquatting)");
         }
       });
 
-      // 🔴 دومينات مشبوهة
-      if (domain.endsWith(".xyz") || domain.endsWith(".ru") || domain.endsWith(".top")) {
-        score -= 25;
+      // 🔴 4) دومينات مشبوهة
+      if (
+        domain.endsWith(".xyz") ||
+        domain.endsWith(".ru") ||
+        domain.endsWith(".top")
+      ) {
+        score -= 30;
         reasons.push("امتداد غير موثوق");
       }
 
-      // 🔴 كلمات تصيّد
-      if (link.includes("login") || link.includes("verify") || link.includes("secure")) {
+      // 🔴 5) كلمات تصيّد
+      if (
+        link.includes("login") ||
+        link.includes("verify") ||
+        link.includes("secure")
+      ) {
         score -= 20;
         reasons.push("كلمات تصيّد");
       }
 
-      // 🔴 @
+      // 🔴 6) @ (خطر redirect)
       if (link.includes("@")) {
-        score -= 20;
-        reasons.push("وجود @");
+        score -= 25;
+        reasons.push("استخدام @ لإخفاء الوجهة");
       }
 
-      // 🔴 طول الرابط
-      if (link.length > 75) {
+      // 🔴 7) طول الرابط
+      if (link.length > 80) {
         score -= 10;
-        reasons.push("رابط طويل");
+        reasons.push("رابط طويل بشكل غير طبيعي");
       }
 
-      // 🟢 HTTPS
+      // 🔴 8) subdomains كثيرة
+      if (domain.split(".").length > 3) {
+        score -= 15;
+        reasons.push("نطاق فرعي مفرط (مشتبه)");
+      }
+
+      // 🟢 HTTPS bonus
       if (link.startsWith("https")) {
         score += 5;
       }
@@ -85,6 +112,7 @@ function analyze() {
       // 🔥 ضبط الحدود
       score = Math.max(0, Math.min(100, score));
 
+      // 🎯 التصنيف
       let status = "";
       let className = "";
 
