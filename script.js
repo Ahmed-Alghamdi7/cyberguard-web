@@ -11,64 +11,65 @@ function analyze() {
 
     loading.style.display = "none";
 
-    // 🔥 التحقق: هل هو رابط أصلاً؟
-    let isUrl = link.startsWith("http://") ||
-                link.startsWith("https://") ||
-                link.includes(".");
-
-    if (!link || !isUrl) {
-      resultBox.className = "result danger";
-      resultBox.innerText = "❌ الرجاء إدخال رابط صحيح";
-      explanationBox.innerText = "المدخل ليس رابط (يجب أن يبدأ بـ https أو يحتوي على نطاق)";
-      resultBox.style.opacity = 1;
+    // 🔥 تحقق أساسي
+    if (!link) {
+      showResult("❌ الرجاء إدخال رابط", "", "danger");
       return;
+    }
+
+    if (!link.startsWith("http")) {
+      showResult("❌ الرابط غير صالح", "لا يبدأ بـ http/https", "danger");
+      return;
+    }
+
+    // 🌐 استخراج الدومين الحقيقي
+    let domain = "";
+    try {
+      domain = new URL(link).hostname;
+    } catch {
+      domain = link;
     }
 
     let score = 100;
     let reasons = [];
 
-    // 🔴 كلمات مشبوهة
-    if (link.includes("login") || link.includes("verify")) {
+    // 🔴 1) روابط مختصرة
+    if (domain.includes("bit.ly") || domain.includes("tinyurl")) {
+      score -= 25;
+      reasons.push("رابط مختصر يخفي الوجهة");
+    }
+
+    // 🔴 2) Typosquatting
+    let fakeWords = ["g00gle", "faceb00k", "paypa1", "micros0ft"];
+    fakeWords.forEach(word => {
+      if (link.includes(word)) {
+        score -= 35;
+        reasons.push("دومين مزيف (Typosquatting)");
+      }
+    });
+
+    // 🔴 3) دومينات مشبوهة
+    if (domain.endsWith(".xyz") || domain.endsWith(".ru") || domain.endsWith(".top")) {
+      score -= 25;
+      reasons.push("امتداد غير موثوق");
+    }
+
+    // 🔴 4) كلمات تصيّد
+    if (link.includes("login") || link.includes("verify") || link.includes("secure")) {
       score -= 20;
       reasons.push("كلمات تصيّد");
     }
 
-    // 🔴 @ داخل الرابط
+    // 🔴 5) @ داخل الرابط
     if (link.includes("@")) {
       score -= 20;
-      reasons.push("وجود @ داخل الرابط");
+      reasons.push("وجود @ (خطر إعادة توجيه)");
     }
 
-    // 🔴 أرقام كثيرة
-    let numbers = (link.match(/[0-9]/g) || []).length;
-    if (numbers > 6) {
+    // 🔴 6) طول الرابط مبالغ فيه
+    if (link.length > 75) {
       score -= 10;
-      reasons.push("أرقام كثيرة");
-    }
-
-    // 🔴 شرطات كثيرة
-    let dashes = (link.match(/-/g) || []).length;
-    if (dashes > 3) {
-      score -= 10;
-      reasons.push("شرطات كثيرة");
-    }
-
-    // 🔴 دومينات مشبوهة
-    if (link.includes(".xyz") || link.includes(".ru")) {
-      score -= 25;
-      reasons.push("دومين غير موثوق");
-    }
-
-    // 🔴 روابط مختصرة (NEW 🔥)
-    if (link.includes("bit.ly") || link.includes("tinyurl")) {
-      score -= 20;
-      reasons.push("رابط مختصر (مخفي الوجهة)");
-    }
-
-    // 🔴 Typosquatting (تلاعب بالأحرف)
-    if (link.includes("g00gle") || link.includes("faceb00k") || link.includes("paypa1")) {
-      score -= 30;
-      reasons.push("اسم نطاق مزيف (Typosquatting)");
+      reasons.push("رابط طويل جدًا");
     }
 
     // 🟢 HTTPS
@@ -80,13 +81,14 @@ function analyze() {
     if (score > 100) score = 100;
     if (score < 0) score = 0;
 
+    // 🎯 التصنيف
     let status = "";
     let className = "";
 
-    if (score >= 75) {
+    if (score >= 80) {
       status = "✅ آمن";
       className = "safe";
-    } else if (score >= 40) {
+    } else if (score >= 50) {
       status = "⚠️ مشبوه";
       className = "warn";
     } else {
@@ -94,21 +96,30 @@ function analyze() {
       className = "danger";
     }
 
-    resultBox.className = "result " + className;
-    resultBox.innerText = `${status} (${score}/100)`;
-
-    explanationBox.innerText =
-      reasons.length > 0
-        ? "الأسباب: " + reasons.join(" - ")
-        : "لا توجد مؤشرات خطورة واضحة";
-
-    resultBox.style.opacity = 1;
+    showResult(
+      `${status} (${score}/100)`,
+      reasons.length ? reasons.join(" - ") : "لا توجد مؤشرات خطورة واضحة",
+      className
+    );
 
   }, 800);
 }
 
+// 🎯 دالة عرض النتيجة
+function showResult(text, explanation, className) {
+  let resultBox = document.getElementById("result");
+  let explanationBox = document.getElementById("explanation");
+
+  resultBox.className = "result " + className;
+  resultBox.innerText = text;
+  explanationBox.innerText = explanation;
+
+  resultBox.style.opacity = 1;
+}
+
+// 🧹 مسح
 function clearInput() {
   document.getElementById("link").value = "";
   document.getElementById("result").innerText = "";
   document.getElementById("explanation").innerText = "";
-}
+}}
