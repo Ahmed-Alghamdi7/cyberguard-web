@@ -12,43 +12,55 @@ body {
   font-family: Arial;
   background: #0f172a;
   color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* 🧱 Layout */
+/* 🧱 Sections */
 .section {
-  padding: 20px;
-  max-width: 500px;
-  margin: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
 }
 
+/* 📦 Card */
 .card {
   background: #1e293b;
   border-radius: 15px;
   padding: 18px;
-  margin-bottom: 20px;
+  width: 90%;
+  max-width: 420px;
   box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  position: relative;
 }
 
 /* 🔝 Hero */
-.hero h1 {
-  margin: 0;
-  font-size: 26px;
+.hero .card {
+  padding: 25px;
 }
 
-.hero p {
+/* 🎯 Analyze highlight */
+#analyzeSection .card {
+  border: 1px solid #38bdf8;
+  box-shadow: 0 0 25px rgba(56,189,248,0.2);
+}
+
+/* 💡 text */
+p {
   font-size: 13px;
-  color: #cbd5e1;
   line-height: 1.6;
+  color: #cbd5e1;
 }
 
-/* 💡 Lists */
 ul {
   padding-right: 15px;
-  line-height: 1.7;
   font-size: 13px;
+  line-height: 1.7;
 }
 
-/* 🎯 Analyze */
+/* 🎯 Input */
 input {
   width: 100%;
   padding: 12px;
@@ -58,6 +70,7 @@ input {
   box-sizing: border-box;
 }
 
+/* 🔘 Buttons */
 button {
   width: 100%;
   padding: 12px;
@@ -66,6 +79,9 @@ button {
   border: none;
   font-weight: bold;
   cursor: pointer;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .analyze-btn { background: #38bdf8; }
@@ -98,41 +114,45 @@ button {
   color: #94a3b8;
   padding: 20px;
 }
+
+/* 🧠 Titles */
+h1, h3 {
+  margin: 0 0 10px 0;
+}
 </style>
 </head>
 
 <body>
 
-<!-- 🔝 HERO (مطور حسب طلبك) -->
+<!-- 🔝 HERO -->
 <div class="section hero">
   <div class="card">
 
     <h1>🔐 Cyber Guard</h1>
 
     <p>
-      أداة تحليل روابط ذكية تكشف الروابط الاحتيالية والتصيّد الإلكتروني خلال ثواني.
+      أداة تحليل روابط ذكية لكشف الروابط الاحتيالية والتصيّد الإلكتروني خلال ثواني.
     </p>
 
     <p>
       🧠 <b>لماذا صمم هذا البرنامج؟</b><br>
-      تم تصميم Cyber Guard لرفع الوعي الأمني وحماية المستخدمين من الروابط المشبوهة التي تُستخدم في سرقة البيانات والهجمات الإلكترونية.
+      لرفع الوعي الأمني وحماية المستخدمين من الروابط المشبوهة.
     </p>
 
     <p>
-      🎯 <b>الفائدة منه:</b><br>
-      يساعدك على معرفة إذا كان الرابط آمن أو خطير قبل فتحه.
+      🎯 <b>الفائدة:</b><br>
+      معرفة إذا الرابط آمن أو خطير قبل فتحه.
     </p>
 
     <p>
       👨‍💻 <b>صاحب المشروع:</b><br>
-      Ahmed Alghamdi | أحمد الغامدي<br>
-      صاحب الفكرة والمطور الأساسي.
+      Ahmed Alghamdi | أحمد الغامدي
     </p>
 
   </div>
 </div>
 
-<!-- 💡 التوعية -->
+<!-- 💡 TIPS -->
 <div class="section">
   <div class="card">
     <h3>🛡️ كيف تحمي نفسك؟</h3>
@@ -140,12 +160,11 @@ button {
       <li>لا تضغط روابط مجهولة</li>
       <li>تأكد من HTTPS</li>
       <li>انتبه للروابط المختصرة</li>
-      <li>لا تدخل بياناتك بسرعة</li>
     </ul>
   </div>
 </div>
 
-<!-- 🧠 هل تعلم -->
+<!-- 🧠 DID YOU KNOW -->
 <div class="section">
   <div class="card">
     <h3>🧠 هل تعلم؟</h3>
@@ -157,7 +176,7 @@ button {
   </div>
 </div>
 
-<!-- 📊 ماذا يفعل -->
+<!-- 📊 FEATURES -->
 <div class="section">
   <div class="card">
     <h3>📊 ماذا يفعل البرنامج؟</h3>
@@ -202,12 +221,6 @@ button {
 <div class="footer">
   Developed by: Ahmed Alghamdi | أحمد الغامدي
 </div>
-
-<script>
-function scrollToAnalyze() {
-  document.getElementById("analyzeSection").scrollIntoView({ behavior: "smooth" });
-}
-</script>
 
 <script src="script.js"></script>
 
