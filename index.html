@@ -1,51 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
 
-<!-- 🔥 مهم للجوال -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Cyber Guard</title>
-@@ -26,7 +25,7 @@
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  background: #1e293b;
   padding: 20px;
   border-radius: 15px;
   width: 90%;
-  max-width: 350px;
   max-width: 380px;
   text-align: center;
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
-@@ -35,27 +34,15 @@
+
+h2 {
   margin-bottom: 10px;
 }
 
-/* 🔐 الوصف */
-.info {
 .info, .tips {
   font-size: 12px;
-  color: #cbd5e1;
-  margin-bottom: 10px;
-  line-height: 1.6;
   text-align: right;
   line-height: 1.6;
   margin-bottom: 10px;
 }
 
-.info ul {
-  padding-right: 15px;
-}
-
-/* 💡 النصائح */
 .tips {
-  font-size: 12px;
   color: #a5f3fc;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  text-align: right;
-  line-height: 1.6;
   background: rgba(56, 189, 248, 0.08);
   padding: 10px;
   border-radius: 10px;
-@@ -91,6 +78,7 @@
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.analyze-btn {
+  background: #38bdf8;
+}
+
+.clear-btn {
+  background: #ef4444;
   color: white;
 }
 
@@ -53,7 +82,8 @@
 .result {
   margin-top: 15px;
   font-size: 18px;
-@@ -99,14 +87,53 @@
+  font-weight: bold;
+  opacity: 0;
   transition: 0.5s;
 }
 
@@ -68,9 +98,6 @@
   display: none;
 }
 
-.safe { color: #22c55e; }
-.warn { color: #facc15; }
-.danger { color: #ef4444; }
 #explanation {
   font-size: 12px;
   margin-top: 8px;
@@ -110,37 +137,26 @@
 
 .footer {
   margin-top: 15px;
-@@ -124,30 +151,16 @@ <h2>🔐 Cyber Guard</h2>
+  font-size: 12px;
+  color: #94a3b8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🔐 Cyber Guard</h2>
 
 <!-- 🔐 الوصف -->
 <div class="info">
-  🔐 <b>Cyber Guard - URL Risk Analyzer</b><br><br>
-
-  أداة تعليمية لتحليل الروابط واكتشاف مؤشرات الاحتيال والتصيّد (Phishing).<br>
-  تعتمد على قواعد تحليل ذكية لتقييم خطورة الرابط وإعطاء درجة أمان.<br><br>
-
-  ⚠️ تنبيه مهم:<br>
-  هذه الأداة للتوعية فقط وليست نظام حماية حقيقي.<br><br>
-
-  💡 كيف تعمل:
-  <ul>
-    <li>تحليل شكل الرابط ومكوناته</li>
-    <li>كشف الروابط المختصرة والمشبوهة</li>
-    <li>تحديد كلمات التصيّد</li>
-    <li>إعطاء تقييم خطورة من 0 إلى 100</li>
-  </ul>
   🔐 <b>URL Risk Analyzer</b><br><br>
   أداة تحليل روابط للتوعية الأمنية وكشف التصيّد.
 </div>
 
-<!-- 💡 النصائح الجديدة -->
 <!-- 💡 النصائح -->
 <div class="tips">
-  💡 <b>نصائح أمنية:</b><br>
-  • لا تفتح روابط مجهولة المصدر<br>
-  • قبل أي تسجيل دخول تأكد من وجود https <br>
-  • انتبه من الروابط المختصرة<br>
-  • لا تدخل بياناتك في مواقع مشبوهة<br>
   💡 نصائح أمنية:<br>
   • لا تفتح روابط مجهولة<br>
   • تأكد من HTTPS<br>
@@ -148,7 +164,12 @@
 </div>
 
 <input type="text" id="link" placeholder="الصق الرابط هنا">
-@@ -160,6 +173,12 @@ <h2>🔐 Cyber Guard</h2>
+
+<button class="analyze-btn" onclick="analyze()">Analyze</button>
+<button class="clear-btn" onclick="clearInput()">Clear</button>
+
+<div class="loading" id="loading">⏳ جاري التحليل...</div>
+
 <div class="result" id="result"></div>
 <div id="explanation"></div>
 
@@ -161,3 +182,10 @@
 <div class="footer">
 Developed by: Ahmed Alghamdi | أحمد الغامدي
 </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
