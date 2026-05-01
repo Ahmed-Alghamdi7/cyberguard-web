@@ -29,24 +29,24 @@ function analyze() {
 
     // 🔴 كلمات مشبوهة
     if (link.includes("login") || link.includes("verify")) {
-      score -= 25;
+      score -= 20;
       reasons.push("كلمات تصيّد");
     }
 
-    // 🔴 @
+    // 🔴 @ داخل الرابط
     if (link.includes("@")) {
       score -= 20;
-      reasons.push("وجود @");
+      reasons.push("وجود @ داخل الرابط");
     }
 
     // 🔴 أرقام كثيرة
     let numbers = (link.match(/[0-9]/g) || []).length;
     if (numbers > 6) {
-      score -= 15;
+      score -= 10;
       reasons.push("أرقام كثيرة");
     }
 
-    // 🔴 شرطات
+    // 🔴 شرطات كثيرة
     let dashes = (link.match(/-/g) || []).length;
     if (dashes > 3) {
       score -= 10;
@@ -55,16 +55,28 @@ function analyze() {
 
     // 🔴 دومينات مشبوهة
     if (link.includes(".xyz") || link.includes(".ru")) {
-      score -= 30;
+      score -= 25;
       reasons.push("دومين غير موثوق");
     }
 
-    // 🟢 https
+    // 🔴 روابط مختصرة (NEW 🔥)
+    if (link.includes("bit.ly") || link.includes("tinyurl")) {
+      score -= 20;
+      reasons.push("رابط مختصر (مخفي الوجهة)");
+    }
+
+    // 🔴 Typosquatting (تلاعب بالأحرف)
+    if (link.includes("g00gle") || link.includes("faceb00k") || link.includes("paypa1")) {
+      score -= 30;
+      reasons.push("اسم نطاق مزيف (Typosquatting)");
+    }
+
+    // 🟢 HTTPS
     if (link.startsWith("https")) {
       score += 5;
     }
 
-    // ضبط الحدود
+    // 🔥 ضبط الحدود
     if (score > 100) score = 100;
     if (score < 0) score = 0;
 
