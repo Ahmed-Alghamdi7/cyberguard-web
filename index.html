@@ -33,12 +33,6 @@ body {
   width: 90%;
   max-width: 420px;
   box-shadow: 0 0 20px rgba(0,0,0,0.4);
-  position: relative;
-}
-
-/* 🔝 Hero */
-.hero .card {
-  padding: 25px;
 }
 
 /* 🎯 Analyze highlight */
@@ -79,9 +73,6 @@ button {
   border: none;
   font-weight: bold;
   cursor: pointer;
-  position: relative;
-  z-index: 10;
-  pointer-events: auto;
 }
 
 .analyze-btn { background: #38bdf8; }
@@ -104,7 +95,6 @@ button {
 .history {
   font-size: 12px;
   color: #94a3b8;
-  line-height: 1.6;
 }
 
 /* 🔚 Footer */
@@ -115,7 +105,6 @@ button {
   padding: 20px;
 }
 
-/* 🧠 Titles */
 h1, h3 {
   margin: 0 0 10px 0;
 }
@@ -125,54 +114,19 @@ h1, h3 {
 <body>
 
 <!-- 🔝 HERO -->
-<div class="section hero">
+<div class="section">
   <div class="card">
 
     <h1>🔐 Cyber Guard</h1>
 
     <p>
-      أداة تحليل روابط ذكية لكشف الروابط الاحتيالية والتصيّد الإلكتروني خلال ثواني.
+      أداة تحليل روابط ذكية لكشف الروابط الاحتيالية والتصيّد خلال ثواني.
     </p>
 
     <p>
-      🧠 <b>لماذا صمم هذا البرنامج؟</b><br>
-      لرفع الوعي الأمني وحماية المستخدمين من الروابط المشبوهة.
+      👨‍💻 <b>المطور:</b> Ahmed Alghamdi | أحمد الغامدي
     </p>
 
-    <p>
-      🎯 <b>الفائدة:</b><br>
-      معرفة إذا الرابط آمن أو خطير قبل فتحه.
-    </p>
-
-    <p>
-      👨‍💻 <b>صاحب المشروع:</b><br>
-      Ahmed Alghamdi | أحمد الغامدي
-    </p>
-
-  </div>
-</div>
-
-<!-- 💡 TIPS -->
-<div class="section">
-  <div class="card">
-    <h3>🛡️ كيف تحمي نفسك؟</h3>
-    <ul>
-      <li>لا تضغط روابط مجهولة</li>
-      <li>تأكد من HTTPS</li>
-      <li>انتبه للروابط المختصرة</li>
-    </ul>
-  </div>
-</div>
-
-<!-- 🧠 DID YOU KNOW -->
-<div class="section">
-  <div class="card">
-    <h3>🧠 هل تعلم؟</h3>
-    <ul>
-      <li>90% من الهجمات تبدأ برابط</li>
-      <li>الروابط المختصرة قد تخفي مواقع ضارة</li>
-      <li>حتى المواقع الرسمية يمكن استغلالها</li>
-    </ul>
   </div>
 </div>
 
@@ -183,7 +137,7 @@ h1, h3 {
     <ul>
       <li>🔍 تحليل الرابط</li>
       <li>⚠️ كشف التصيّد</li>
-      <li>📊 إعطاء تقييم أمان</li>
+      <li>📊 تقييم الأمان</li>
     </ul>
   </div>
 </div>
@@ -211,9 +165,7 @@ h1, h3 {
 <div class="section">
   <div class="card">
     <h3>🕓 آخر العمليات</h3>
-    <div class="history" id="historyBox">
-      لا يوجد عمليات حتى الآن
-    </div>
+    <div id="historyBox">لا يوجد عمليات حتى الآن</div>
   </div>
 </div>
 
@@ -222,7 +174,110 @@ h1, h3 {
   Developed by: Ahmed Alghamdi | أحمد الغامدي
 </div>
 
-<script src="script.js"></script>
+<!-- 🚀 JAVASCRIPT (FIXED + WORKING) -->
+<script>
+let lastReport = "";
+
+function analyze() {
+  let link = document.getElementById("link").value.trim();
+  let resultBox = document.getElementById("result");
+  let explanationBox = document.getElementById("explanation");
+
+  if (!link) {
+    showResult("❌ الرجاء إدخال رابط", "", "danger");
+    return;
+  }
+
+  let url;
+  try {
+    url = new URL(link.startsWith("http") ? link : "http://" + link);
+  } catch {
+    showResult("❌ رابط غير صالح", "", "danger");
+    return;
+  }
+
+  let domain = url.hostname;
+  let score = 100;
+  let reasons = [];
+
+  if (!link.startsWith("https")) {
+    score -= 10;
+    reasons.push("لا يستخدم HTTPS");
+  }
+
+  if (domain.includes("bit.ly") || domain.includes("tinyurl") || domain.includes("t.co")) {
+    score -= 30;
+    reasons.push("رابط مختصر");
+  }
+
+  let fakeWords = ["g00gle", "faceb00k", "paypa1"];
+  fakeWords.forEach(w => {
+    if (link.toLowerCase().includes(w)) {
+      score -= 40;
+      reasons.push("دومين مزيف");
+    }
+  });
+
+  if (link.includes("@")) {
+    score -= 25;
+    reasons.push("إخفاء الوجهة");
+  }
+
+  score = Math.max(0, Math.min(100, score));
+
+  let status = "";
+  let className = "";
+
+  if (score >= 80) {
+    status = "✅ آمن";
+    className = "safe";
+  } else if (score >= 50) {
+    status = "⚠️ مشبوه";
+    className = "warn";
+  } else {
+    status = "❌ خطير";
+    className = "danger";
+  }
+
+  lastReport = `URL: ${link}
+Score: ${score}
+Status: ${status}
+Reasons: ${reasons.join(", ") || "None"}`;
+
+  showResult(`${status} (${score}/100)`, reasons.join(" - "), className);
+
+  saveHistory(link, score, status);
+}
+
+function showResult(text, explanation, className) {
+  let resultBox = document.getElementById("result");
+  let explanationBox = document.getElementById("explanation");
+
+  resultBox.className = "result " + className;
+  resultBox.innerText = text;
+  explanationBox.innerText = explanation;
+  resultBox.style.opacity = 1;
+}
+
+function clearInput() {
+  document.getElementById("link").value = "";
+  document.getElementById("result").innerText = "";
+  document.getElementById("explanation").innerText = "";
+}
+
+function copyReport() {
+  if (!lastReport) return;
+  navigator.clipboard.writeText(lastReport);
+  alert("📋 تم نسخ التقرير");
+}
+
+function saveHistory(link, score, status) {
+  let box = document.getElementById("historyBox");
+  let item = document.createElement("div");
+  item.innerHTML = `🔗 ${link} | ${score}/100 | ${status}`;
+  box.prepend(item);
+}
+</script>
 
 </body>
 </html>
