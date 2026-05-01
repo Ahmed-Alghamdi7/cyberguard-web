@@ -4,21 +4,23 @@ function analyze() {
   let explanationBox = document.getElementById("explanation");
   let loading = document.getElementById("loading");
 
-  loading.style.display = "block";
+  // ✅ إصلاح: تأكد إذا العنصر موجود
+  if (loading) loading.style.display = "block";
   resultBox.style.opacity = 0;
 
   setTimeout(() => {
 
     try {
 
-      loading.style.display = "none";
+      if (loading) loading.style.display = "none";
 
       if (!link) {
         showResult("❌ الرجاء إدخال رابط", "", "danger");
         return;
       }
 
-      if (!link.includes(".")) {
+      // ✅ إصلاح مهم: يمنع الكلام العشوائي
+      if (!link.includes(".") || /\s/.test(link)) {
         showResult("❌ هذا ليس رابطًا صحيحًا", "", "danger");
         return;
       }
@@ -133,7 +135,7 @@ Entropy: ${entropy.toFixed(2)}
       saveHistory(link, score, threat);
 
     } catch (e) {
-      loading.style.display = "none";
+      if (loading) loading.style.display = "none";
       showResult("❌ خطأ", "حدث خطأ غير متوقع", "danger");
     }
 
@@ -184,7 +186,6 @@ function clearInput() {
   document.getElementById("link").value = "";
   document.getElementById("result").innerText = "";
   document.getElementById("explanation").innerText = "";
-  document.getElementById("loading").style.display = "none";
 }
 
 // ===============================
