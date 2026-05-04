@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
@@ -39,7 +39,7 @@ h2 {
 
 /* 📄 Info / Tips / About */
 .info, .tips, .about {
-  font-size: 14px; /* 🔥 كان 12 */
+  font-size: 14px; 
   text-align: right;
   line-height: 1.8;
   margin-bottom: 10px;
@@ -70,7 +70,7 @@ input {
   margin-top: 10px;
   border-radius: 8px;
   border: none;
-  font-size: 15px; /* 🔥 تكبير بسيط */
+  font-size: 15px; 
   box-sizing: border-box;
   outline: none;
 }
@@ -84,7 +84,7 @@ button {
   border: none;
   font-weight: bold;
   cursor: pointer;
-  font-size: 14px; /* 🔥 تحسين بسيط */
+  font-size: 14px; 
 }
 
 .analyze-btn {
@@ -115,11 +115,16 @@ button {
   display: none;
 }
 
+/* تم تعديل هذا الجزء لحل مشكلة النص المعكوس */
 #explanation {
-  font-size: 13px; /* 🔥 كان 12 */
+  font-size: 13px; 
   margin-top: 8px;
   color: #cbd5e1;
   line-height: 1.6;
+  text-align: right;     /* محاذاة النص لليمين */
+  direction: rtl;        /* تحديد اتجاه النص من اليمين لليسار */
+  unicode-bidi: embed;   /* معالجة تداخل العربي والإنجليزي */
+  white-space: pre-line; /* الحفاظ على الأسطر الجديدة */
 }
 
 /* 📋 COPY BUTTON */
@@ -133,7 +138,7 @@ button {
 /* 🕓 HISTORY */
 .history {
   margin-top: 15px;
-  font-size: 12px; /* 🔥 تحسين بسيط */
+  font-size: 12px; 
   text-align: right;
   color: #94a3b8;
   max-height: 120px;
@@ -145,7 +150,7 @@ button {
 /* 🔚 Footer */
 .footer {
   margin-top: 15px;
-  font-size: 13px; /* 🔥 كان 12 */
+  font-size: 13px; 
   color: #94a3b8;
 }
 
@@ -188,7 +193,7 @@ button {
 <div class="tips">
   💡 نصائح أمنية:<br>
   • لا تفتح روابط مجهولة<br>
-  • تأكد من HTTPS<br>
+  • تاكد من وجود HTTPS<br>
   • انتبه للروابط المختصرة<br>
 </div>
 

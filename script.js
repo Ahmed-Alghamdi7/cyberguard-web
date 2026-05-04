@@ -1,4 +1,4 @@
-/// ============================================================
+// ============================================================
 // 🧠 LEVENSHTEIN DISTANCE ALGORITHM
 // خوارزمية ذكية تحسب عدد العمليات المطلوبة لتحويل نص إلى آخر
 // تستخدم هنا لكشف محاولات تزييف أسماء المواقع (Typosquatting)
@@ -64,13 +64,37 @@ function analyze() {
       let reasons = [];
 
       // ============================================================
-      // 🛡️ WHITELIST CHECK (القائمة البيضاء)
-      // لتقليل الإنذارات الخاطئة للمواقع الحكومية والعالمية الموثوقة
+      // 🛡️ SMART WHITELIST CHECK (القائمة البيضاء الذكية)
+      // تم إضافة رموز التحكم بالاتجاه \u202b و \u202c لحل مشكلة النص المعكوس
       // ============================================================
-      const whitelist = ["google.com", "microsoft.com", "saudi.gov.sa", "apple.com", "github.com", "twitter.com", "instagram.com"];
-      if (whitelist.some(w => domain === w || domain.endsWith("." + w))) {
-          showResult("✅ آمن (رابط موثوق)", "هذا النطاق ينتمي لمواقع رسمية موثوقة.", "safe");
-          return;
+      const whitelist = {
+          "google.com": "شركة Google العالمية",
+          "microsoft.com": "شركة Microsoft",
+          "saudi.gov.sa": "بوابة النفاذ الوطني / جهات حكومية سعودية",
+          "apple.com": "شركة Apple",
+          "github.com": "منصة GitHub للمبرمجين",
+          "moe.gov.sa": "وزارة التعليم السعودية",
+          "mof.gov.sa": "وزارة المالية السعودية",
+          "twitter.com": "منصة X (تويتر سابقاً)",
+          "instagram.com": "منصة Instagram"
+      };
+
+      let trustedEntity = "";
+      for (let key in whitelist) {
+          if (domain === key || domain.endsWith("." + key)) {
+              trustedEntity = whitelist[key];
+              break;
+          }
+      }
+
+      if (trustedEntity) {
+          const professionalAdvice = `\u202bهذا النطاق يتبع لجهة موثوقة: [${trustedEntity}].\u202c
+
+💡 نصيحة أمنية:
+حتى مع المواقع الرسمية، كن حذراً من الروابط المرسلة من مجهولين. تذكر أن الجهات الموثوقة لا تطلب منك كلمات المرور أو رموز التحقق عبر روابط خارجية.`;
+          
+          showResult("✅ آمن (رابط موثوق)", professionalAdvice, "safe");
+          return; // إنهاء الفحص هنا لأن الموقع موثوق رسمياً
       }
 
       // =============================
